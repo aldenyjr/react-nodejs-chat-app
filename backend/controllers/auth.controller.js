@@ -50,7 +50,7 @@ export const signup = async (req, res) => {
       generateTokenAndSetCookie(newUser._id, res);
 
       await newUser.save();
-      setMessage(201, {
+      res.status(201).json({
         _id: newUser.id,
         fullName: newUser.fullName,
         userName: newUser.userName,
@@ -80,7 +80,7 @@ export const login = async (req, res) => {
     if (!user || !isPasswordCorrect) {
       logger.info(`Invalid credentials, verify username or password: (username: ${userName})`);
       return res.status(400).json({
-        message: 'Invalid credentials, verify username or password',
+        error: 'Invalid credentials, verify username or password',
       });
     }
 
@@ -96,7 +96,7 @@ export const login = async (req, res) => {
     });
   } catch (error) {
     logger.error(`Error in login controller: ${error.message}`);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
@@ -109,5 +109,6 @@ export const logout = (req, res) => {
     res.status(200).json({ message: 'Logged out successfully' });
   } catch (error) {
     logger.error(`Error in logout controller: ${error.message}`);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
