@@ -18,8 +18,8 @@ const userSchema = new mongoose.Schema(
     // Senha do usuário
     password: {
       type: String,
-      required: true, // Campo obrigatório
-      minLength: 6, // Mínimo de 6 caracteres
+      required: true,
+      minlength: [6, 'A senha deve ter pelo menos 6 caracteres'], // Mensagem personalizada
     },
     // Gênero do usuário, permitindo apenas 'male' ou 'female'
     gender: {
