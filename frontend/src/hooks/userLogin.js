@@ -11,6 +11,9 @@ const userLogin = () => {
     if (!sucess) return false;
 
     setLoading(true);
+
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
@@ -19,8 +22,9 @@ const userLogin = () => {
       });
 
       const data = await res.json();
-      if (data.error) {
-        throw new Error(data.error);
+      console.log(data)
+      if (data.message) {
+        throw new Error(data.message);
       }
       //LocalStorage
       localStorage.setItem('chat-user', JSON.stringify(data));
@@ -28,6 +32,7 @@ const userLogin = () => {
       setAuthUser(data);
     } catch (error) {
       toast.error(error.message);
+      console.log(error.message)
     } finally {
       setLoading(false);
     }
